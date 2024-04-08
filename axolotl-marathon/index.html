@@ -1,13 +1,62 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <h1>hello squirrel</h1>
-    <script type="module" src="/main.js"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swim Distance Tracker</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;800&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+    <main>
+        <h1>Lap Tracker</h1>
+        <form id="form-el">
+            <label for="date-el">Date:</label>
+            <input type="date" id="date-el" name="date" />
+            <label for="pool-name">Pool:</label>
+            <select name="pool" id="pool-name">
+                <option value="select">- Pick a pool -</option>
+                <option value="bart">Bartholomew</option>
+                <option value="stacy">Big Stacy</option>
+                <option value="eddy">Deep Eddy</option>
+                <option value="shipe">Shipe</option>
+                <option value="ramsey">Ramsey</option>
+                <option value="northwest">Northwest</option>
+            </select>
+            <!-- <input type="text" id="pool-name" name="pool" /> -->
+            <label for="lap-num">Laps:</label>
+            <input type="text" id="lap-num" name="laps" />
+            <button type="submit" id="submit-btn" class="submit-btn">Track daily laps</button>
+        </form>
+        <p id="temp"></p>
+    </main>
+    <table>
+        <thead class="stats-heading">
+            <th scope="col">Date</th>
+            <th scope="col">Laps</th>
+            <th scope="col">Miles</th>
+        </thead>
+        <tbody class="stats-el">  
+            <!-- Rendered in JavaScript
+            <div class="daily-stat">
+                <p>01/03</p>
+                <p>26.5</p>
+                <p>1.0</p>
+            </div> -->
+        </tbody>
+        <tfoot class="total-el">
+            <tr>
+                <td colspan="2">Total miles: </td>
+                <td id="total-el"></td>
+            </tr>
+        </tfoot>
+    </table>
+    <script src="/main.js" type="module"></script>
+</body>
 </html>

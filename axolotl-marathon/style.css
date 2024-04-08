@@ -1,3 +1,151 @@
+:root {
+  font-size: 20px;
+  --dark-yellow: rgb(246, 232, 131);
+  --light-yellow: rgb(245, 243, 229);
 
+}
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+body {
+  margin: 0.5em;
+  font-family: 'Quicksand', sans-serif;
+  background-color: rgb(6, 112, 243);
+  color: rgb(255, 255, 255);
+  /* height: 100%; */
+  /* overflow: hidden; */
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  border-radius: 5px;
+}
+
+h1 {
+  margin: 0.5rem 0;
+}
+
+main {
+  background-color: rgb(6, 6, 75);
+  color: var(--dark-yellow);
+  background-image: url('wavy.jpg');
+  background-size: 100%;
+  background-blend-mode: overlay;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin: 1em 0 0; */
+  padding: 1.5rem 0 1rem;
+}
+
+form > * {
+  font-family: inherit;
+  border-radius: 5px;
+  border: none;
+}
+
+label, select, input {
+  margin: 0.5em 0;
+}
+
+input, select {
+  display: block;
+  padding: 0.25rem;
+  background-color: var(--light-yellow);
+  color:rgb(6, 6, 75);
+  font-size: inherit;
+}
+
+input:focus,
+input:hover,
+select:focus,
+select:hover {
+  outline: 2px solid var(--dark-yellow);
+  box-shadow: inset 2px 2px 2px rgb(173, 173, 248);
+  /* rgb(249, 221, 7); */
+}
+
+.submit-btn {
+  padding: 0.8em 1em 0.8em 0.4em;
+  margin-top: 1em;
+  text-align: left;
+  background-color: var(--dark-yellow);
+  color: rgb(32, 32, 128);
+  font-weight: 800;
+}
+
+.submit-btn:hover,
+.submit-btn:focus {
+  background-color: rgb(32, 32, 128);
+  color: var(--dark-yellow);
+  outline: 3px solid var(--dark-yellow);
+}
+
+.stats-heading,
+.total-el {
+  /* margin-top: 0.5rem; */
+  /* margin-right: 2rem;
+  text-align: right; */
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+
+.stats-heading {
+  margin-bottom: 0.5rem;
+}
+
+.total-el {
+  margin-top: 0.5rem;
+  /* text-align: right; */
+  horizontal-align: right;
+
+}
+
+/* .stats-heading,
+.daily-stat {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid blue;
+} */
+
+tbody {
+  height: 30vh;
+  overflow: scroll;
+}
+
+
+.stats-el {
+  /* display: block; */
+  background-color: var(--light-yellow);
+  color:blue;
+  height: 30vh;
+  overflow-y: scroll;
+  border-radius: 5px;
+}
+
+
+th, td {
+  text-align: center;
+  padding: 0.3em;
+}
+
+
+.total-el td {
+  text-align: right; 
+}
 
 
