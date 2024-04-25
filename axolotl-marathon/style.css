@@ -12,6 +12,7 @@
 html {
   margin: 0;
   padding: 0;
+  height: 100vh;
 }
 
 img {
@@ -27,6 +28,12 @@ body {
   /* overflow: hidden; */
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+.google-logo {
+  width: 1.4em;
 }
 
 main {
@@ -110,11 +117,11 @@ select:hover {
 .total-el {
   margin-top: 0.5rem;
   /* text-align: right; */
-  horizontal-align: right;
+  /* horizontal-align: right; */
 
 }
 
-/* .stats-heading,
+/* .stats-heading, 
 .daily-stat {
   width: 100%;
   display: flex;
@@ -122,27 +129,72 @@ select:hover {
   border-bottom: 1px solid blue;
 } */
 
-tbody {
-  height: 30vh;
-  overflow: scroll;
+/* table.table-data {
+  width: 100%;
 }
 
+table.table-data thead,
+table.table-data .stats-el {
+  display: block;
+}
+
+table.table-data .stats-el {
+  height: 100px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+} */
+
+.table-data {
+  height: 150px;
+  width: 100%;
+  border: 1px solid hotpink;
+}
+
+/* .table-data .stats-heading, */
+.stats-el,
+.total-el {
+  display: block;
+}
 
 .stats-el {
-  /* display: block; */
-  background-color: var(--light-yellow);
-  color:blue;
-  height: 30vh;
+  height: 100%;
+  overflow-x: hidden;
   overflow-y: scroll;
-  border-radius: 5px;
 }
 
+.stats-el {
+  /* width: 100%; */
+  background-color: var(--light-yellow);
+  color:blue;
+  border-radius: 5px;
 
-th, td {
+}
+ 
+.daily-stat {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  /* border-bottom: 1px solid blue; */
+} 
+
+.stats-heading {
+  border: 1px solid orange;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.stats-heading th {
+  width: 33vw;
+  border: 1px solid orangered;
+}
+
+th, tr {
+  /* width: 33%; */
+  /* width: 40%; */
   text-align: center;
   padding: 0.3em;
 }
-
 
 .total-el td {
   text-align: right; 
