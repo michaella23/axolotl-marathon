@@ -14,18 +14,20 @@
     <link rel="stylesheet" href="./style.css"/>
 </head>
 <body>
-    <div id="login-el">
+    <div class="login-modal">
         <h1>Sign up or log in</h1>
-        <button id="sign-in-with-google-btn" class="provider-btn">
+        <button id="sign-in-with-google-btn" class="provider-btn login-el">
             <img src="google.png" class="google-logo" alt="google logo">
             Sign in with Google
         </button>
+        <label for="name">Name:</label>
+        <input type="text" id="name" class="login-el"/>
         <label for="email">Email address:</label>
-        <input type="email" id="email"/>
+        <input type="email" id="email" class="login-el"/>
         <label for="password">Password:</label>
-        <input type="password" id="password">
-        <button id="sign-in-btn">Sign in</button>
-        <button id="create-account-btn">Create Account</button>
+        <input type="password" id="password" class="login-el">
+        <button id="sign-in-btn" class="login-el">Sign in</button>
+        <button id="create-account-btn" class="login-el">Create Account</button>
     </div>
     <main>
         <h1>Lap Tracker</h1>
