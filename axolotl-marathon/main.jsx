@@ -37,8 +37,6 @@ signOutBtn.addEventListener("click", function() {
     signOut(auth)
 })
 
-const statsEl = document.getElementById("stats-el")
-
 onAuthStateChanged(auth, (user) => {
 if (user) {
     const uid = user.uid;
@@ -104,9 +102,8 @@ function getTotalYards(pool) {
 function calculateDailyMiles(e) {
     
     e.preventDefault();
-    let totalMiles = 0
     const userLapsInDb = ref(db, `users/${auth.currentUser.uid}/lapsRef`)
-    const userTotalInDb = ref(db, `users/${auth.currentUser.uid}/total`)
+    let totalMiles = 0
     const dateVal = dateEl.value;
     const lapsVal = Number(lapEl.value);
     const poolName = poolNameEl.value;
@@ -121,11 +118,12 @@ function calculateDailyMiles(e) {
         pool: poolName
     };
     push(userLapsInDb, thisEntry)
-    set(userTotalInDb, totalMiles)
+    getSnapshot()
     resetForm()
     }
-        
 
+const statsEl = document.getElementById("stats-el")
+        
 function getSnapshot() {
         const userLapsInDb = ref(db, `users/${auth.currentUser.uid}/lapsRef`)
         const userTotalInDb = ref(db, `users/${auth.currentUser.uid}/totalRef`)
@@ -151,9 +149,6 @@ function getSnapshot() {
                 set(userTotalInDb, totalMiles)
                 .then(() => totalEl.textContent = totalMiles.toFixed(1))
             })
-
-
-
 }
 
 // ***** elements for logging in with an email, add later ***** //
