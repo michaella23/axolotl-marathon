@@ -187,8 +187,9 @@ table.table-data .stats-el {
 
 .stats-el {
   height: 100%;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
+  /* overflow-x: hidden;
+  overflow-y: scroll; */
 }
 
 .stats-el {

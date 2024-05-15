@@ -1,12 +1,13 @@
 import { initializeApp } from 'firebase/app'
-import { getDatabase, ref, push, onValue, set, child
+import { getDatabase, ref, push, onValue , set
+    // , child
     // , ref, push, onValue, set, get, remove 
 } from 'firebase/database'
 
 import { 
     getAuth,
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword, 
+    // createUserWithEmailAndPassword, 
+    // signInWithEmailAndPassword, 
     onAuthStateChanged,
     GoogleAuthProvider,
     signInWithPopup,
@@ -26,27 +27,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const db = getDatabase(app)
 const auth = getAuth(app)
-// const user = auth.currentUser
 const provider = new GoogleAuthProvider
 
-const users = ref(db, "users")
-// const lapsRef = ref(db, "users/userData/laps")
+// const users = ref(db, "users")
 // console.log(users)
 
 // const loginEl = document.getElementById("login-el")
-const emailEl = document.getElementById("email")
-const passwordEl = document.getElementById("password")
-const nameEl = document.getElementById("name")
+// const emailEl = document.getElementById("email")
+// const passwordEl = document.getElementById("password")
+// const nameEl = document.getElementById("name")
 
 const signInWithGoogleBtn = document.getElementById("sign-in-with-google-btn")
-const signInBtn = document.getElementById("sign-in-btn")
-const createAccountBtn = document.getElementById("create-account-btn")
+const signOutBtn = document.getElementById("sign-out-btn")
+// const signInBtn = document.getElementById("sign-in-btn")
+// const createAccountBtn = document.getElementById("create-account-btn")
 
 signInWithGoogleBtn.addEventListener("click", authSignInWithGoogle)
+signOutBtn.addEventListener("click", function() {
+    signOut(auth)
+})
+// signInBtn.addEventListener("click", authSignInWithEmail)
 
-signInBtn.addEventListener("click", authSignInWithEmail)
-
-createAccountBtn.addEventListener("click", authCreateAccountWithEmail)
+// createAccountBtn.addEventListener("click", authCreateAccountWithEmail)
 
 
 const statsEl = document.getElementById("stats-el")
@@ -55,90 +57,44 @@ const statsEl = document.getElementById("stats-el")
 onAuthStateChanged(auth, (user) => {
 if (user) {
     const uid = user.uid;
-    getSnapshot(uid)
-    // console.log(uid)
-    // return uid
-    // ...
+    console.log(uid)
+    getSnapshot()
+    // call calculateDailyMiles here too?
 } else {
     // User is signed out
-    // ...
     console.log("you are not logged in")
 }
 });
 
-// console.log(uid)
-
-function authCreateAccountWithEmail() {
-    const email = emailEl.value
-    const password = passwordEl.value
-    const name = nameEl.value
-
-    createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-            const user = auth.currentUser
-
-            const userData = {
-                name: name,
-                uid: user.uid,
-                lapsObject: {
-                    date: null,
-                    pool: null,
-                    laps: null,
-                    miles: null
-                },
-                total: 0
-            }
-
-            push(users, userData)
-
-            clearAuthFields()
-        })
-
-        .catch((error) => {
-            console.error(error.message) 
-        })
-}
-
-function authSignInWithEmail() {
-    const email = emailEl.value
-    const password = passwordEl.value
-
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        // ...
-        console.log(user.uid)
-    })
-    .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage)
-    });
-}
-
+// console.log(auth.currentUser)
 
 function authSignInWithGoogle() {
     signInWithPopup(auth, provider)
-        .then((result) => {
-            const user = result.user;
-            console.log(user.uid)
-            console.log("Signed in with Google")
-        }).catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.error(errorCode, errorMessage)
-        });
-    }
+    .then((result) => {
+        const user = result.user;
+        console.log(user.uid)
+        console.log("Signed in with Google")
+    }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(errorCode, errorMessage)
+    });
+}
 
 function clearInputField(field) {
     field.value = ""
 }
 
-function clearAuthFields() {
-    clearInputField(emailEl)
-    clearInputField(passwordEl)
+function resetForm() {
+    clearInputField(dateEl)
+    clearInputField(poolNameEl)
+    clearInputField(lapEl)
 }
+
+// function clearAuthFields() {
+//     clearInputField(emailEl)
+//     clearInputField(passwordEl)
+// }
 // new structure, this might be db, "user/uid/laps"
 // const reference = ref(db, "laps")
 // const totalRef = ref(db, "total")
@@ -152,98 +108,132 @@ const totalEl = document.getElementById("total-el")
 
 formEl.addEventListener("submit", calculateDailyMiles)
 
-let dateVal
-let lapsVal
 let yards
 const yardsPerMile = 1760
 
 function getTotalYards(pool) {
     switch (pool) {
         case "stacy":
-            yards = 66
+            yards = 66;
             break
-        case "eddy":
-            yards = 66
+            case "eddy":
+            yards = 66;
             break
-        case "bart":
-            yards = 50
+            case "bart":
+            yards = 50;
             break
-        default:
-            yards = 50
+            default:
+            yards = 50;
+        }
     }
-}
-
-
-// let lapsRef
-
-// reading
-
-function getSnapshot(uid) {
-    onValue(users, function(snapshot) {
-        let totalMiles = 0
-        // key is the number, value is the object
-        const entries = Object.entries(snapshot.val())
-        console.log(entries)
-        for (let entry of entries) {
-            if (entry[1].uid === uid) {
-                console.log(entry[1])
-                // lapsRef = entry[1].laps
-                // console.log(entry[1].lapsObject)
-                const date = entry[1].lapsObject.date.split('').slice(5).join('')
-                const laps = Number(entry[1].lapsObject.laps).toFixed(1)
-                const miles = Number(entry[1].lapsObject.miles).toFixed(1) 
-                // totalMiles += Number(miles)
-                statsEl.innerHTML += `
-                <tr class="daily-stat" id="${entry[0]}">
-                    <td>${date}</td>
-                    <td>${laps}</td>
-                    <td>${miles}</td>
-                </tr>`
-            }
-            // set(entry[1].total, totalMiles)
-            // .then(() => totalEl.textContent = totalMiles.toFixed(1))
-        } 
-        
-    })
-    
-}
-
-// let thisEntry
-
-// writing
 
 function calculateDailyMiles(e) {
-    e.preventDefault()
-    onValue(users, function(snapshot) {
-        const entries = Object.entries(snapshot.val())
-        for (let entry of entries) {
-            if (entry[1].uid === uid) {
-    // let entryKey = db.ref().child('users').push().key;
-    // console.log(entryKey)
-    // const reference = users/child
-    // console.log(reference)
-    dateVal = dateEl.value
-    lapsVal = Number(lapEl.value)
-    getTotalYards(poolNameEl.value)
-    let totalYards = lapsVal * yards
-    let dailyMiles = (totalYards / yardsPerMile).toFixed(1)        
-    const thisEntry = {
-            date: dateVal,
-            laps: lapsVal,
-            miles: dailyMiles,
-            pool: poolNameEl.value
-        }
+    
+    e.preventDefault();
+    const userLapsInDb = ref(db, `users/${auth.currentUser.uid}/lapsRef`)
+    // const userTotalInDb = ref(db, `users/${auth.currentUser.uid}/total`)
+                const dateVal = dateEl.value;
+                const lapsVal = Number(lapEl.value);
+                const poolName = poolNameEl.value;
+                console.log(poolName)
+                getTotalYards(poolName);
+                let totalYards = lapsVal * yards;
+                const dailyMiles = Number(totalYards / yardsPerMile).toFixed(1);
+                // totalMiles += Number(dailyMiles)
+                const thisEntry = {
+                    date: dateVal,
+                    laps: lapsVal,
+                    miles: dailyMiles,
+                    pool: poolName
+                };
+    push(userLapsInDb, thisEntry)
+    resetForm()
+    // set(userTotalInDb, totalMiles)
+    }
+        
 
-    entry[1].lapsObject = thisEntry
-    }}
-    })
-    // return thisEntry
-    // const reference = users/child
-    // console.log(reference)
-    // push(users/, lapsObject)
-    // console.log(newPostKey)
+function getSnapshot() {
+        const userLapsInDb = ref(db, `users/${auth.currentUser.uid}/lapsRef`)
+        // const userTotalInDb = ref(db, `users/${auth.currentUser.uid}/totalRef`)
+        onValue(userLapsInDb, function(snapshot) {
+        if (snapshot.exists()) {
+            let totalMiles = 0
+            // key is the number, value is the object ************
+            const entries = Object.entries(snapshot.val())
+            // console.log(entries)
+            statsEl.innerHTML = ""
 
-    // push(users, lapsObject) 
-    // where uid == user.uid
-    // resetForm()
-}
+            for (let entry of entries) {
+                    const date = entry[1].date.split('').slice(5).join('')
+                    const laps = Number(entry[1].laps).toFixed(1)
+                    const miles = Number(entry[1].miles).toFixed(1) 
+                    console.log(miles)
+                    totalMiles += miles
+                    statsEl.innerHTML += `
+                    <tr class="daily-stat" id="${entry[0]}">
+                        <td>${date}</td>
+                        <td>${laps}</td>
+                        <td>${miles}</td>
+                    </tr>`
+                    }
+                }
+            })
+            // set(userTotalInDb, totalMiles)
+            // set(entry[1].total, totalMiles)
+            // .then(() => totalEl.textContent = totalMiles.toFixed(1))
+
+} 
+        // function authCreateAccountWithEmail() {
+        //     const email = emailEl.value;
+        //     const password = passwordEl.value
+        //     const name = nameEl.value
+        
+        //     createUserWithEmailAndPassword(auth, email, password)
+        //         .then(() => {
+        //             const user = auth.currentUser
+        
+        //             const userData = {
+        //                 name: name,
+        //                 uid: user.uid,
+        //                 lapsObject: {
+        //                     date: null,
+        //                     pool: null,
+        //                     laps: null,
+        //                     miles: null
+        //                 },
+        //                 total: 0
+        //             }
+        
+                    // console.log(user.uid)
+        
+        //             push(users, userData)
+        
+        //             clearAuthFields()
+        //         })
+        
+        //         .catch((error) => {
+        //             console.error(error.message) 
+        //         })
+        // }
+
+
+
+// function authSignInWithEmail() {
+//     const email = emailEl.value
+//     const password = passwordEl.value
+    
+//     signInWithEmailAndPassword(auth, email, password)
+//     .then((userCredential) => {
+//         // Signed in 
+//         const user = userCredential.user;
+//         // ...
+//         console.log(user.uid)
+//     })
+//     .catch((error) => {
+//         const errorCode = error.code;
+//         const errorMessage = error.message;
+//         console.log(errorCode, errorMessage)
+//     });
+// }
+
+  
