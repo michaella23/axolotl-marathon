@@ -72,7 +72,7 @@ function authSignInWithGoogle() {
     signInWithPopup(auth, provider)
     .then((result) => {
         const user = result.user;
-        console.log(user.uid)
+        // console.log(user.uid)
         console.log("Signed in with Google")
     }).catch((error) => {
         const errorCode = error.code;
@@ -90,14 +90,6 @@ function resetForm() {
     clearInputField(poolNameEl)
     clearInputField(lapEl)
 }
-
-// function clearAuthFields() {
-//     clearInputField(emailEl)
-//     clearInputField(passwordEl)
-// }
-// new structure, this might be db, "user/uid/laps"
-// const reference = ref(db, "laps")
-// const totalRef = ref(db, "total")
 
 
 const dateEl = document.getElementById("date-el")
@@ -178,6 +170,8 @@ function getSnapshot() {
                     }
                 }
             })
+
+
             // set(userTotalInDb, totalMiles)
             // set(entry[1].total, totalMiles)
             // .then(() => totalEl.textContent = totalMiles.toFixed(1))
@@ -236,4 +230,7 @@ function getSnapshot() {
 //     });
 // }
 
-  
+  // function clearAuthFields() {
+//     clearInputField(emailEl)
+//     clearInputField(passwordEl)
+// }
