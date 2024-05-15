@@ -29,30 +29,15 @@ const db = getDatabase(app)
 const auth = getAuth(app)
 const provider = new GoogleAuthProvider
 
-// const users = ref(db, "users")
-// console.log(users)
-
-// const loginEl = document.getElementById("login-el")
-// const emailEl = document.getElementById("email")
-// const passwordEl = document.getElementById("password")
-// const nameEl = document.getElementById("name")
-
 const signInWithGoogleBtn = document.getElementById("sign-in-with-google-btn")
 const signOutBtn = document.getElementById("sign-out-btn")
-// const signInBtn = document.getElementById("sign-in-btn")
-// const createAccountBtn = document.getElementById("create-account-btn")
 
 signInWithGoogleBtn.addEventListener("click", authSignInWithGoogle)
 signOutBtn.addEventListener("click", function() {
     signOut(auth)
 })
-// signInBtn.addEventListener("click", authSignInWithEmail)
-
-// createAccountBtn.addEventListener("click", authCreateAccountWithEmail)
-
 
 const statsEl = document.getElementById("stats-el")
-
 
 onAuthStateChanged(auth, (user) => {
 if (user) {
@@ -65,8 +50,6 @@ if (user) {
     console.log("you are not logged in")
 }
 });
-
-// console.log(auth.currentUser)
 
 function authSignInWithGoogle() {
     signInWithPopup(auth, provider)
@@ -150,9 +133,7 @@ function getSnapshot() {
         onValue(userLapsInDb, function(snapshot) {
         if (snapshot.exists()) {
             let totalMiles = 0
-            // key is the number, value is the object ************
             const entries = Object.entries(snapshot.val())
-            // console.log(entries)
             statsEl.innerHTML = ""
 
             for (let entry of entries) {
@@ -176,7 +157,23 @@ function getSnapshot() {
             // set(entry[1].total, totalMiles)
             // .then(() => totalEl.textContent = totalMiles.toFixed(1))
 
-} 
+}
+
+// ***** elements for logging in with an email, add later ***** //
+
+
+// const loginEl = document.getElementById("login-el")
+// const emailEl = document.getElementById("email")
+// const passwordEl = document.getElementById("password")
+// const nameEl = document.getElementById("name")
+
+// signInBtn.addEventListener("click", authSignInWithEmail)
+
+// createAccountBtn.addEventListener("click", authCreateAccountWithEmail)
+
+// const signInBtn = document.getElementById("sign-in-btn")
+// const createAccountBtn = document.getElementById("create-account-btn")
+
         // function authCreateAccountWithEmail() {
         //     const email = emailEl.value;
         //     const password = passwordEl.value
