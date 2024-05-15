@@ -100,7 +100,6 @@ function getTotalYards(pool) {
     }
 
 function calculateDailyMiles(e) {
-    
     e.preventDefault();
     const userLapsInDb = ref(db, `users/${auth.currentUser.uid}/lapsRef`)
     let totalMiles = 0
@@ -127,13 +126,17 @@ const statsEl = document.getElementById("stats-el")
 function getSnapshot() {
         const userLapsInDb = ref(db, `users/${auth.currentUser.uid}/lapsRef`)
         const userTotalInDb = ref(db, `users/${auth.currentUser.uid}/totalRef`)
-        let totalMiles = 0
         onValue(userLapsInDb, function(snapshot) {
-        if (snapshot.exists()) {
+            let totalMiles = 0
             const entries = Object.entries(snapshot.val())
+            const sorted = entries.sort(function(a, b) {
+                let dateA = new Date(a[1].date)
+                let dateB = new Date(b[1].date)
+                return dateB - dateA
+            })
+            
             statsEl.innerHTML = ""
-
-            for (let entry of entries) {
+            for (let entry of sorted) {
                     const date = entry[1].date.split('').slice(5).join('')
                     const laps = Number(entry[1].laps).toFixed(1)
                     const miles = Number(entry[1].miles).toFixed(1) 
@@ -145,11 +148,11 @@ function getSnapshot() {
                         <td>${miles}</td>
                     </tr>`
                     }
-                }
-                set(userTotalInDb, totalMiles)
-                .then(() => totalEl.textContent = totalMiles.toFixed(1))
-            })
+            set(userTotalInDb, totalMiles)
+            .then(() => totalEl.textContent = totalMiles.toFixed(1))
+        })
 }
+
 
 // ***** elements for logging in with an email, add later ***** //
 
