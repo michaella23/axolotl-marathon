@@ -176,7 +176,6 @@ table.table-data .stats-el {
 .table-data {
   height: 150px;
   width: 100%;
-  border: 1px solid hotpink;
 }
 
 /* .table-data .stats-heading, */
@@ -208,7 +207,6 @@ table.table-data .stats-el {
 } 
 
 .stats-heading {
-  border: 1px solid orange;
   width: 100vw;
   display: flex;
   justify-content: space-between;
@@ -216,7 +214,6 @@ table.table-data .stats-el {
 
 .stats-heading th {
   width: 33vw;
-  border: 1px solid orangered;
 }
 
 th, tr {

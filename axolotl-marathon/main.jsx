@@ -42,7 +42,6 @@ const statsEl = document.getElementById("stats-el")
 onAuthStateChanged(auth, (user) => {
 if (user) {
     const uid = user.uid;
-    console.log(uid)
     getSnapshot()
     // call calculateDailyMiles here too?
 } else {
@@ -105,34 +104,34 @@ function getTotalYards(pool) {
 function calculateDailyMiles(e) {
     
     e.preventDefault();
+    let totalMiles = 0
     const userLapsInDb = ref(db, `users/${auth.currentUser.uid}/lapsRef`)
-    // const userTotalInDb = ref(db, `users/${auth.currentUser.uid}/total`)
-                const dateVal = dateEl.value;
-                const lapsVal = Number(lapEl.value);
-                const poolName = poolNameEl.value;
-                console.log(poolName)
-                getTotalYards(poolName);
-                let totalYards = lapsVal * yards;
-                const dailyMiles = Number(totalYards / yardsPerMile).toFixed(1);
-                // totalMiles += Number(dailyMiles)
-                const thisEntry = {
-                    date: dateVal,
-                    laps: lapsVal,
-                    miles: dailyMiles,
-                    pool: poolName
-                };
+    const userTotalInDb = ref(db, `users/${auth.currentUser.uid}/total`)
+    const dateVal = dateEl.value;
+    const lapsVal = Number(lapEl.value);
+    const poolName = poolNameEl.value;
+    getTotalYards(poolName);
+    let totalYards = lapsVal * yards;
+    const dailyMiles = Number(totalYards / yardsPerMile).toFixed(1);
+    totalMiles += Number(dailyMiles)
+    const thisEntry = {
+        date: dateVal,
+        laps: lapsVal,
+        miles: dailyMiles,
+        pool: poolName
+    };
     push(userLapsInDb, thisEntry)
+    set(userTotalInDb, totalMiles)
     resetForm()
-    // set(userTotalInDb, totalMiles)
     }
         
 
 function getSnapshot() {
         const userLapsInDb = ref(db, `users/${auth.currentUser.uid}/lapsRef`)
-        // const userTotalInDb = ref(db, `users/${auth.currentUser.uid}/totalRef`)
+        const userTotalInDb = ref(db, `users/${auth.currentUser.uid}/totalRef`)
+        let totalMiles = 0
         onValue(userLapsInDb, function(snapshot) {
         if (snapshot.exists()) {
-            let totalMiles = 0
             const entries = Object.entries(snapshot.val())
             statsEl.innerHTML = ""
 
@@ -140,8 +139,7 @@ function getSnapshot() {
                     const date = entry[1].date.split('').slice(5).join('')
                     const laps = Number(entry[1].laps).toFixed(1)
                     const miles = Number(entry[1].miles).toFixed(1) 
-                    console.log(miles)
-                    totalMiles += miles
+                    totalMiles += Number(miles)
                     statsEl.innerHTML += `
                     <tr class="daily-stat" id="${entry[0]}">
                         <td>${date}</td>
@@ -150,12 +148,11 @@ function getSnapshot() {
                     </tr>`
                     }
                 }
+                set(userTotalInDb, totalMiles)
+                .then(() => totalEl.textContent = totalMiles.toFixed(1))
             })
 
 
-            // set(userTotalInDb, totalMiles)
-            // set(entry[1].total, totalMiles)
-            // .then(() => totalEl.textContent = totalMiles.toFixed(1))
 
 }
 
