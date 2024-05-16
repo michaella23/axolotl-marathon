@@ -14,22 +14,23 @@
     <link rel="stylesheet" href="./style.css"/>
 </head>
 <body>
+    <button id="sign-out-btn" class="logout-el">Sign out</button>
     <div class="login-modal">
-        <h1>Sign up or log in</h1>
+        <h1 class="modal-heading">Track your swimming</h1>
         <button id="sign-in-with-google-btn" class="provider-btn login-el">
             <img src="google.png" class="google-logo" alt="google logo">
             Sign in with Google
         </button>
-        <button id="sign-out-btn" class="logout-el">Sign out</button>
-        <!-- <label for="name">Name:</label>
-        <input type="text" id="name" class="login-el"/>
-        <label for="email">Email address:</label>
-        <input type="email" id="email" class="login-el"/>
-        <label for="password">Password:</label>
-        <input type="password" id="password" class="login-el">
-        <button id="sign-in-btn" class="login-el">Sign in</button>
-        <button id="create-account-btn" class="login-el">Create Account</button> -->
+        
     </div>
+    <!-- <label for="name">Name:</label>
+    <input type="text" id="name" class="login-el"/>
+    <label for="email">Email address:</label>
+    <input type="email" id="email" class="login-el"/>
+    <label for="password">Password:</label>
+    <input type="password" id="password" class="login-el">
+    <button id="sign-in-btn" class="login-el">Sign in</button>
+    <button id="create-account-btn" class="login-el">Create Account</button> -->
     <main>
         <h1>Lap Tracker</h1>
         <form id="form-el">
@@ -61,12 +62,11 @@
         </thead>
         <tbody class="stats-el" id="stats-el">  
             <!-- Rendered in JavaScript -->
-        </tr>
         </tbody>
-        <tfoot class="total-el">
-            <tr>
-                <td colspan="2">Total miles: </td>
-                <td id="total-el"></td>
+        <tfoot>
+            <tr class="total-el">
+                <!-- <td colspan="2">Total miles: </td> -->
+                <td>Total miles: <span id="total-el"></span></td>
             </tr>
         </tfoot>
     </table>

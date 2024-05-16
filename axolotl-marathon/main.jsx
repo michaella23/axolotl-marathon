@@ -29,6 +29,10 @@ const db = getDatabase(app)
 const auth = getAuth(app)
 const provider = new GoogleAuthProvider
 
+const loginModal = document.querySelector(".login-modal")
+const table = document.querySelector(".table-data")
+
+
 const signInWithGoogleBtn = document.getElementById("sign-in-with-google-btn")
 const signOutBtn = document.getElementById("sign-out-btn")
 
@@ -39,20 +43,22 @@ signOutBtn.addEventListener("click", function() {
 
 onAuthStateChanged(auth, (user) => {
 if (user) {
-    const uid = user.uid;
+    // User is signed in
     getSnapshot()
-    // call calculateDailyMiles here too?
+    table.style.display = "table"
+    loginModal.style.display = "none"
+    signOutBtn.style.display = "block"
 } else {
     // User is signed out
-    console.log("you are not logged in")
+    table.style.display = "none"
+    loginModal.style.display = "flex"
+    signOutBtn.style.display = "none"
 }
 });
 
 function authSignInWithGoogle() {
     signInWithPopup(auth, provider)
     .then((result) => {
-        const user = result.user;
-        // console.log(user.uid)
         console.log("Signed in with Google")
     }).catch((error) => {
         const errorCode = error.code;
@@ -141,6 +147,7 @@ function getSnapshot() {
                     const laps = Number(entry[1].laps).toFixed(1)
                     const miles = Number(entry[1].miles).toFixed(1) 
                     totalMiles += Number(miles)
+                    console.log(totalMiles)
                     statsEl.innerHTML += `
                     <tr class="daily-stat" id="${entry[0]}">
                         <td>${date}</td>
@@ -149,7 +156,10 @@ function getSnapshot() {
                     </tr>`
                     }
             set(userTotalInDb, totalMiles)
-            .then(() => totalEl.textContent = totalMiles.toFixed(1))
+            .then(() => {
+                console.log(totalEl)
+                totalEl.textContent = totalMiles.toFixed(1)
+        })
         })
 }
 
